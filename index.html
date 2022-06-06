@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+    <title>KeyriQR - Demo</title>
+    <link rel="icon" href="data:image/png;base64,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" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+	<body>
+      <!-- 
+        *
+        * The `src` attr of the iframe points to wherever you are hosting the iframe (obviously).
+        * This can be anywhere, with the caveat that it has to be on the same domain that you registered with Keyri.
+        * 
+        * NOTE: *OPTIONAL* anything you put in the querystring here will be made accessible to the mobile device on its GET request
+        * on the `userParameters` attribute.
+        *
+      -->
+      <iframe 
+      src="./KeyriQR.html?__LOAD=1&__CUSTOM=2&__DATA=3&__LIKE=4&__THIS=5"
+      id="qr-frame" 
+      frameborder="0"
+      height="500" 
+      width="500" 
+      scrolling="no" 
+      style="border: solid 10px red;" 
+    ></iframe>
+
+	</body>
+
+</html>
+
+<script type="module">
+
+  //
+  // Since the iframe does most of the "behind-the-scenes" work,
+  // it communicates with your login-page via an event listener
+  //
+  // Below is an EXAMPLE of how you can listen for these events
+  // and do something with the payload
+  //
+  window.addEventListener("message", (evt) => {
+  
+    //
+    // Since a LOT of addins use "message" on "window"
+    // I'm only focusing on events that have a `keyri` attribute
+    // and a `data` attribute
+    if(evt.data.keyri && evt.data.data && document.location.origin == evt.origin){
+    
+      //
+      // The event that is emmitted from the iframe (like most events)
+      // has a `data` attribute. This is really all you care about
+      // and so it's all I'll extract here...
+      //
+      const {data} = evt;
+
+      //
+      // For DEMO purposes, Stringify it, and throw it up to the user
+      // via alert.
+      //
+      alert(JSON.stringify(data));
+      
+      //
+      // In real life, this data could be used to set a cookie, set
+      // a header, redirect the browser, whatever...
+      //
+    
+    }
+
+  });
+
+</script>
