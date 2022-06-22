@@ -12,7 +12,7 @@ module.exports = function(grunt){
       },
       "my_target": {
         "files": {
-          "dist/keyri-0.9.0.min.js": ["js/AwesomeQR.js","js/EZCrypto.js","js/KeyriQR.js","js/SimpleSocket.js","js/main.js"]
+          "dist/keyri-0.10.1.min.js": ["js/AwesomeQR.js","js/EZCrypto.js","js/KeyriQR.js","js/SimpleSocket.js","js/main.js"]
         }
       }
     }

@@ -9,8 +9,12 @@ async function main(){
   // who you're talking to.
   //
   // We're setting this on the querystring on the 
-  let url = new URL(document.currentScript.src);
-  let TARGET_ORIGIN = url.searchParams.get("TARGET_ORIGIN")
+  if(!document?.currentScript?.src){
+    let TARGET_ORIGIN = null;
+  } else {
+    let url = new URL(document.currentScript.src);
+    let TARGET_ORIGIN = url.searchParams.get("TARGET_ORIGIN")
+  }
 
 
   //
@@ -26,12 +30,9 @@ async function main(){
     throw new Error("ORIGIN OF IFRAME MUST BE THE SAME AS HOST.");
   }
 
-  
-  console.log(TARGET_ORIGIN, parent.location.origin, location.origin);
-  
-  if(TARGET_ORIGIN == null){
+//  if(TARGET_ORIGIN == null){
     TARGET_ORIGIN = location.origin;
-  }
+//  }
   
   if(TARGET_ORIGIN !== parent.location.origin){
     throw new Error("THE ORIGIN OF THE PARENT FRAME AND THE URL GIVEN IN THE QUERY STRING MUST MATCH!");
@@ -47,6 +48,16 @@ async function main(){
   // It will be on an attribute called `userParameters`
   //
   let queryStringData = Object.fromEntries(Array.from((new URL(document.location)).searchParams));
+  let queryStringDataJs = {};
+  
+  if(document?.currentScript?.src){
+    queryStringDataJs = Object.fromEntries(Array.from((new URL(document.currentScript.src)).searchParams));
+  }
+
+  //
+  // Merge any query string data from the iframe or the js src
+  //
+  queryStringData = Object.assign(queryStringData, queryStringDataJs);
 
   //
   // Create references to obects on the page we'll need to update.
@@ -55,6 +66,13 @@ async function main(){
   //
   const qrTarget = document.querySelector("#qr-target");
   const qrLayOver = document.querySelector("#qr-lay-over");
+  
+  //
+  // Pre-emptive use clean up
+  //
+  qrLayOver.classList.remove("check");
+  qrLayOver.classList.remove("reload");
+
 
   //
   // Instantiate the socket and wait for it to connect and make QR codes
@@ -115,6 +133,7 @@ async function main(){
   // comes around every 15 seconds or so. When we hear it,
   // we'll set the `src` of our QR-Target
   socket.on("QR_LOAD", async (data) => {
+    qrTarget.classList.remove("blurry");
     qrTarget.classList.remove("pre-blurry");
     qrTarget.src = data.detail
   });
