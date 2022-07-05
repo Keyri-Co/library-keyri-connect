@@ -1,9 +1,16 @@
 //
 // Import our socket handler to communicate with the Keyri API
 //
-
 async function main(){
   
+  if(window.socket){
+    window.socket.kill();
+    delete window.socket;
+  }
+  
+  window.socket = {};
+
+
   //
   // In order to *SAFELY* communicate with the parent frame, you need to know
   // who you're talking to.
@@ -77,7 +84,7 @@ async function main(){
   //
   // Instantiate the socket and wait for it to connect and make QR codes
   //
-  let socket = new SimpleSocket(
+  window.socket = new SimpleSocket(
     queryStringData?.Origin, 
     queryStringData?.Environment, 
     queryStringData
