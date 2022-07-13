@@ -79,7 +79,7 @@ async function main(){
   //
   qrLayOver.classList.remove("check");
   qrLayOver.classList.remove("reload");
-
+  qrLayOver.classList.remove("bad");
 
   //
   // Instantiate the socket and wait for it to connect and make QR codes
@@ -151,6 +151,13 @@ async function main(){
   // Unfortunately, we need to think about these too...
   // we'll push this up to the main-frame to get handled
   socket.on("ERROR", async (data) => {
+    // Clear any old junk that's accumulated
+    qrLayOver.classList.remove("check");
+    qrLayOver.classList.remove("reload");
+    
+    // Blur and add our BAD svg over the QR
+    qrTarget.classList.add("blurry");
+    qrLayOver.classList.add("bad");
     console.log(data.detail);
     window.parent.postMessage({data: data.detail, keyri: true, error: true}, TARGET_ORIGIN);
   });
