@@ -9,6 +9,7 @@ async function main(){
   }
   
   window.socket = {};
+  window.errCount = window.errCount || 0;
 
 
   //
@@ -152,14 +153,27 @@ async function main(){
   // we'll push this up to the main-frame to get handled
   socket.on("ERROR", async (data) => {
     console.log(data.detail);
-    window.parent.postMessage({data: data.detail, keyri: true, error: true}, TARGET_ORIGIN);
 
+    window.parent.postMessage({data: data.detail, keyri: true, error: true, errorCount: window.errCount}, TARGET_ORIGIN);
+
+//
+// If something is misconfigured or the API keeps returning errors,
+// this prevents the UI from constantly trying to reconnect despite
+// errors being thrown
+//
+    window.errCount ++;
+
+    if(window.errCount < 4){
     //
     // Assume the user wants to reload
     //
-    setTimeout(() => {
-      main();
-    },100)
+      setTimeout(() => {
+        main();
+      },100)
+    } else {
+      window.parent.postMessage({data: "Too Many Errors", keyri: true, error: true, errorCount: window.errCount}, TARGET_ORIGIN);
+    }
+
   });
   
   
