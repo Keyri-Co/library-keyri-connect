@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link href="https://static.keyri.com/library-keyri-connect/iframe.css" rel="stylesheet">
+
+    <!--
+    <link href="./dist/iframe.css" rel="stylesheet"></link>
+    -->
+
+  </head>
+  <body>
+    <img class="pre-blurry" id="qr-target" style="height: 100%; width: 100%; z-index: -1" />
+    <div
+      id="qr-lay-over"
+      onclick="main();"
+      style="height: 100%; width: 100%; position: absolute; top: 0; left: 0; z-index: 1"
+    ></div>
+  </body>
+</html>
+
+<script src="https://static.keyri.com/library-keyri-connect/keyri-0.10.2.min.js"></script>

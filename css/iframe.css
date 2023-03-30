@@ -1,0 +1,51 @@
+html, body { height: 100%; margin: 0; }
+
+@keyframes blurOn{
+  0% {
+    filter: blur(0px);
+  }
+  100% {
+    filter: blur(3px);
+  }
+}
+
+@keyframes blurOff{
+  0% {
+    filter: blur(3px);
+  }
+  100% {
+    filter: blur(3px);
+  }
+}
+
+.preBlur{
+  filter: blur(3px);
+}
+
+.blurr{
+  animation: blurOn 0.15s;
+  filter: blur(3px);
+}
+
+.off.blurr{
+  animation: blurOff 0.15s;
+  filter: blur(0px);
+}
+
+
+.reload{
+  background: url(https://static.keyri.com/library-keyri-connect/reload.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: drop-shadow(1px 1px 10px black) invert(0%);
+  cursor: pointer;
+}
+
+.check{
+  background: url(https://static.keyri.com/library-keyri-connect/check.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: drop-shadow(1px 1px 10px black) invert(0%);
+  cursor: pointer;
+}
+

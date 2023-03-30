@@ -1,0 +1,5 @@
+node_modules
+*.bat
+docs/fonts
+docs/scripts
+docs/styles

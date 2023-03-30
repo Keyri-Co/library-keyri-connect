@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+    <title>KeyriQR - Demo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+	<body>
+    <div>
+          <!-- 
+            *
+            * The `src` attr of the iframe points to wherever you are hosting the iframe (obviously).
+            * This can be anywhere, with the caveat that it has to be on the same domain that you registered with Keyri.
+            * 
+            * NOTE: *OPTIONAL* anything you put in the querystring here will be made accessible to the mobile device on its GET request
+            * on the `userParameters` attribute.
+            *
+            
+            * EXTRA: https://stackoverflow.com/questions/38850419/how-to-create-multi-color-border-with-css
+            * EXTRA: https://stackoverflow.com/questions/5706963/possible-to-use-border-radius-together-with-a-border-image-which-has-a-gradient
+          -->
+          <iframe 
+          id="qr-frame" 
+          frameborder="0"
+          height="500" 
+          width="500" 
+          scrolling="no" 
+          ></iframe>
+      </div>
+	</body>
+</html>
+
+<script type="module">
+//
+// For development, we can set custom args in our iframe
+// by putting them in the querystring of the URL bar
+// OR! down below.
+//
+// None of this is necessary, it just makes dev work a lot
+// easier with less config...
+//
+let iframeArgs = Object.fromEntries(Array.from((new URL(document.location)).searchParams));
+//
+// Append anything else you want to it...
+//
+
+
+//
+// Set the src of the iFrame
+//
+let iFrame = document.querySelector("iframe");
+let queryString = new URLSearchParams(iframeArgs);
+iFrame.src = `./KeyriQR.html?${queryString}`;
+
+
+
+//
+// Since the iframe does most of the "behind-the-scenes" work,
+// it communicates with your login-page via an event listener
+//
+// Below is an EXAMPLE of how you can listen for these events
+// and do something with the payload
+//
+window.addEventListener("message", (evt) => {
+
+    //
+    // Since a LOT of addins use "message" on "window"
+    // I'm only focusing on events that have a `keyri` attribute
+    // and a `data` attribute
+    if(evt.data.keyri && evt.data.data && document.location.origin == evt.origin){
+    
+    //
+    // The event that is emmitted from the iframe (like most events)
+    // has a `data` attribute. This is really all you care about
+    // and so it's all I'll extract here...
+    //
+    const {data} = evt;
+
+    if(!data.error){
+
+      // ////////////////////////////////////////
+      // Everything looks good to go.
+      // This is the decrypted object MOBILE sent
+      // ////////////////////////////////////////
+      if(data.type === "session_validate"){
+        //
+        // For DEMO purposes, Stringify it, and throw it up to the user
+        // via alert.
+        //
+        alert("CHECK LOGS");
+        console.log(data.data);
+        //
+        // In real life, this data could be used to set a cookie, set
+        // a header, redirect the browser, whatever...
+        //
+      }
+
+
+
+      // ////////////////////////////////////////
+      // The server sent us risk data which is being provided to front end
+      // Here, let's do something useful with it...
+      // ////////////////////////////////////////
+      if(data.type === "risk_data"){
+        //
+        // For DEMO purposes, Stringify it, and throw it up to the user
+        // via alert.
+        //
+        console.log(data.data);
+        //
+        // In real life, this data could be used to set a cookie, set
+        // a header, redirect the browser, whatever...
+        //
+      }
+
+
+
+
+
+    } else {
+      //
+      // Invent better error handling like a modal or something
+      //
+      console.log("ERROR",{data});
+      alert(data.data);
+    }
+
+    
+  }
+
+});
+
+</script>
